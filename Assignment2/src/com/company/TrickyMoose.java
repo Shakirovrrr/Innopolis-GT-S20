@@ -1,7 +1,9 @@
 package com.company;
 
 import java.util.Comparator;
+import java.util.NoSuchElementException;
 import java.util.Random;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class TrickyMoose implements Player {
@@ -16,6 +18,10 @@ public class TrickyMoose implements Player {
 	public void reset() {
 		this.root = null;
 		this.myLastMove = 0;
+	}
+
+	private static int argMax(int... xs) throws NoSuchElementException {
+		return IntStream.range(0, xs.length).boxed().max(Comparator.comparingInt(o -> xs[o])).get();
 	}
 
 	@Override
@@ -37,6 +43,9 @@ public class TrickyMoose implements Player {
 
 		growTree(root, 6);
 
+//		if (Math.random() < 0.3) {
+//			return argMax(xA, xB, xC) + 1;
+//		}
 		return predict(root);
 	}
 
@@ -60,12 +69,14 @@ public class TrickyMoose implements Player {
 			Payoffs epA = expectedPayoffs(x.moveA, myAcc + x.payoff, opponentAcc + prevPayoff);
 			Payoffs epB = expectedPayoffs(x.moveB, myAcc + x.payoff, opponentAcc + prevPayoff);
 			Payoffs epC = expectedPayoffs(x.moveC, myAcc + x.payoff, opponentAcc + prevPayoff);
-			return Stream.of(epA, epB, epC).max(Comparator.comparingDouble(o -> o.opponent)).get();
+			return Stream.of(epA, epB, epC).min(Comparator.comparingDouble(o -> o.opponent)).get();
+//			return new Payoffs(epA.my + epB.my + epC.my, opponentAcc + prevPayoff);
 		} else {
 			Payoffs epA = expectedPayoffs(x.moveA, myAcc + prevPayoff, opponentAcc + x.payoff);
 			Payoffs epB = expectedPayoffs(x.moveB, myAcc + prevPayoff, opponentAcc + x.payoff);
 			Payoffs epC = expectedPayoffs(x.moveC, myAcc + prevPayoff, opponentAcc + x.payoff);
 			return Stream.of(epA, epB, epC).max(Comparator.comparingDouble(o -> o.my)).get();
+//			return new Payoffs(myAcc + prevPayoff, epA.opponent + epB.opponent + epC.opponent);
 		}
 	}
 

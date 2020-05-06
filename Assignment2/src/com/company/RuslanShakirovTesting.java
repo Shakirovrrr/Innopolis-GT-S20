@@ -1,18 +1,44 @@
 package com.company;
 
-public class Tournament {
+public class RuslanShakirovTesting {
 	private Participant participant1, participant2;
 	private int lastMove;
 	private int[] fields;
 
-	public Tournament(Player player1, String name1, Player player2, String name2) {
+	public static void main(String[] args) {
+		Player random = new RandomMoose();
+		Player tree = new RuslanShakirovCode();
+		Player greedy = new GreedyMoose();
+
+		RuslanShakirovTesting tournament;
+
+		tournament = new RuslanShakirovTesting(random, "Random", tree, "Tree");
+		tournament.runTournament(10, 20);
+		tournament.reset();
+		tournament.swapOrder();
+		tournament.runTournament(10, 20);
+
+		tournament = new RuslanShakirovTesting(greedy, "Greedy", tree, "Tree");
+		tournament.runTournament(10, 20);
+		tournament.reset();
+		tournament.swapOrder();
+		tournament.runTournament(10, 20);
+
+		tournament = new RuslanShakirovTesting(random, "Random", greedy, "Greedy");
+		tournament.runTournament(10, 20);
+		tournament.reset();
+		tournament.swapOrder();
+		tournament.runTournament(10, 20);
+	}
+
+	public RuslanShakirovTesting(Player player1, String name1, Player player2, String name2) {
 		this.participant1 = new Participant(player1, name1);
 		this.participant2 = new Participant(player2, name2);
 		this.lastMove = 0;
 		this.fields = new int[]{1, 1, 1};
 	}
 
-	public Tournament(Player player1, Player player2) {
+	public RuslanShakirovTesting(Player player1, Player player2) {
 		this(player1, "Player 1", player2, "Player 2");
 	}
 
@@ -74,8 +100,6 @@ public class Tournament {
 		assert nRounds > 0;
 
 		for (int i = 0; i < nRounds; i++) {
-//			doPlayerMove(participant1);
-//			doPlayerMove(participant2);
 			makeMoves();
 			printStats();
 			System.out.println();

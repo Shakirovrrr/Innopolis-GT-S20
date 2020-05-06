@@ -12,4 +12,9 @@ public class RandomMoose implements Player {
 	public int move(int opponentLastMove, int xA, int xB, int xC) {
 		return (new Random().nextInt(3) + 1);
 	}
+
+	@Override
+	public String getEmail() {
+		return null;
+	}
 }

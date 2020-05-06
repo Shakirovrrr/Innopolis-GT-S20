@@ -18,4 +18,9 @@ public class GreedyMoose implements Player {
 	public int move(int opponentLastMove, int xA, int xB, int xC) {
 		return argMax(xA, xB, xC) + 1;
 	}
+
+	@Override
+	public String getEmail() {
+		return null;
+	}
 }

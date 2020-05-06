@@ -1,11 +1,17 @@
-import com.company.TrickyMoose;
+import com.company.*;
 
 public class Main {
-	public static void main(String[] args) {
-		System.out.println("Hello");
+	public static void lol(String[] args) {
+		Player random = new RandomMoose();
+		Player tricky = new RuslanShakirovCode();
+		Player greedy = new GreedyMoose();
+		Player madina = new SimpleMoose();
 
-		TrickyMoose moose = new TrickyMoose();
-		int move = moose.move(3, 2, 2, 0);
-		System.out.println(move);
+		RuslanShakirovTesting tournament = new RuslanShakirovTesting(madina, "Madina", tricky, "Tricky");
+//		Tournament tournament = new Tournament(greedy, "Greedy", tricky, "Tricky");
+//		Tournament tournament = new Tournament(random, "Random", tricky, "Tricky");
+		tournament.swapOrder();
+//		tournament.runSingleGame(20);
+		tournament.runTournament(10, 20);
 	}
 }
